@@ -4,6 +4,7 @@ const dotenv = require('dotenv')
 const {setupWhatsappListeners} = require('./services/whatsapp-listener-message.service')
 dotenv.config()
 const cors = require('cors');
+const qrcode = require('qrcode'); // Importa la librería qrcode para generar la imagen
 
 const app = express();
 
@@ -18,8 +19,6 @@ app.use((req, res, next) => {
 const {
   Client
 } = require('whatsapp-web.js');
-
-const qrcode = require('qrcode-terminal');
 
 
 const port = process.env.PORT || 8000 
@@ -54,6 +53,8 @@ const client = new Client({
   }
 });
 
+let qrCodeData = null; // Variable para almacenar los datos del QR
+
 client.on('ready', () => {
   console.log('Whatsapp Client is ready!');
 
@@ -62,13 +63,30 @@ client.on('ready', () => {
 });
 
 client.on('qr', qr => {
-  qrcode.generate(qr, {
-    small: true
-  });
+  // Almacena los datos del QR en la variable
+  qrCodeData = qr;
+  console.log('QR Code received. You can access it at /qrcode');
 });
 
 client.on('auth_failure', msg => {
   console.error('Authentication failure:', msg);
+});
+
+// Nuevo endpoint para mostrar el código QR
+app.get('/qrcode', async (req, res) => {
+  if (qrCodeData) {
+    try {
+      // Genera el código QR como una imagen PNG base64
+      const qrImage = await qrcode.toDataURL(qrCodeData);
+      // Envía la imagen directamente en el navegador
+      res.send(`<img src="${qrImage}" alt="QR Code" />`);
+    } catch (err) {
+      console.error('Error generating QR code:', err);
+      res.status(500).send('Error generating QR code.');
+    }
+  } else {
+    res.status(404).send('QR Code not available yet. Please wait for the client to emit the QR event.');
+  }
 });
 
 
