@@ -1,0 +1,21 @@
+{
+    "name": "server",
+    "version": "1.0.0",
+    "description": "MERN Ecommerce Server",
+    "scripts": {
+        "dev": "nodemon server.js",
+        "start": "node server.js"
+    },
+    "dependencies": {
+        "axios": "^0.21.1",
+        "cors": "^2.8.5",
+        "dotenv": "^16.5.0",
+        "express": "^4.17.1",
+        "jsonwebtoken": "^8.5.1",
+        "qrcode-terminal": "^0.12.0",
+        "whatsapp-web.js": "^1.27.0"
+    },
+    "devDependencies": {
+        "nodemon": "^1.19.1"
+    }
+}
