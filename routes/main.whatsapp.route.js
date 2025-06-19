@@ -9,5 +9,7 @@ module.exports = function(app) {
 
   // add a product 
   app.post("/api/notifyrecipient",Auth, whatsapp_service.notifyRecipient);
+  app.post("/api/notifypickup",Auth, whatsapp_service.notifyPickup);
+
 
 };
