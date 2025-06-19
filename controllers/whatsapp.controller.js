@@ -15,7 +15,7 @@ exports.notifyRecipient = (req, res) => {
         }
         const message = `¡Hola ${recipientData.name}!, \nDesde Super Logística y Distribuciones Pharmaser \nTe informamos que tu medicamento 💊:\n${recipientData.courierDescription}\nSe encuentra en proceso de envío 🚀.\nLo estaremos entregando en las proximas 48 horas.\nPor favor, estar muy atento a tus llamadas telefónicas 📲\n¡Pronto nos comunicaremos contigo!.`
         sendNotifications(recipientData.phoneNumber, message)
-        console.log(message)
+     
     }
 
     res.send({success:true})
@@ -25,9 +25,7 @@ exports.notifyRecipient = (req, res) => {
 exports.notifyPickup = (req, res) => {
 
     let recipientData = req.body
-    console.log(recipientData)
     const message = `¡Hola ${recipientData.name}!, \nDesde Super Logística y Distribuciones Pharmaser \nTe informamos que tu medicamento 💊:\n${recipientData.courierDescription}\nHa sido recogido por el domiciliario.\nLo estaremos entregando en las proximas 24 horas.\nPor favor, estar muy atento a tus llamadas telefónicas 📲\n¡Pronto nos comunicaremos contigo!.`
-    let a = sendNotifications(recipientData.phoneNumber, message)
-    console.log(a)
+    sendNotifications(recipientData.phoneNumber, message)
     res.send({success:true})
 }
